@@ -12,19 +12,19 @@ const ScrollableDiv = ({ children }: ScrollableDivProps) => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null; // Guardamos el ID del intervalo
     if (scrollContainerRef.current) {
-      const interval = setInterval(() => {
+      intervalId = setInterval(() => {
         if (scrollContainerRef.current) {
           scrollContainerRef.current.scrollLeft += 2;
           setScrollPosition(scrollContainerRef.current.scrollLeft);
         }
       }, 50);
-      setScrollInterval(interval);
     }
-
+  
     return () => {
-      if (scrollInterval) {
-        clearInterval(scrollInterval);
+      if (intervalId) {
+        clearInterval(intervalId); // Limpiamos el intervalo anterior
       }
     };
   }, []);
